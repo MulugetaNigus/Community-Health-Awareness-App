@@ -33,6 +33,8 @@ const Home = ({ navigation }) => {
       }
     >
       {cards.map(card => (
+        <>
+
         <TouchableOpacity
           key={card.id}
           style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.border }]}
@@ -44,6 +46,47 @@ const Home = ({ navigation }) => {
             <Text style={[styles.description, { color: colors.text }]}>{card.description}</Text>
           </View>
         </TouchableOpacity>
+
+        <TouchableOpacity
+          key={card.id+1}
+          style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.border }]}
+          onPress={() => navigation.navigate(card.screen)}
+        >
+          <Ionicons name={card.icon} size={24} color={colors.primary} />
+          <View style={styles.cardContent}>
+            <Text style={[styles.title, { color: colors.text }]}>{card.title}</Text>
+            <Text style={[styles.description, { color: colors.text }]}>{card.description}</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          key={card.id+10}
+          style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.border }]}
+          onPress={() => navigation.navigate(card.screen)}
+        >
+          <Ionicons name={card.icon} size={24} color={colors.primary} />
+          <View style={styles.cardContent}>
+            <Text style={[styles.title, { color: colors.text }]}>{card.title}</Text>
+            <Text style={[styles.description, { color: colors.text }]}>{card.description}</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          key={card.id+100}
+          style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.border }]}
+          onPress={() => navigation.navigate(card.screen)}
+        >
+          <Ionicons name={card.icon} size={24} color={colors.primary} />
+          <View style={styles.cardContent}>
+            <Text style={[styles.title, { color: colors.text }]}>{card.title}</Text>
+            <Text style={[styles.description, { color: colors.text }]}>{card.description}</Text>
+          </View>
+        </TouchableOpacity>
+
+        {/* i just want to add the bottom space here */}
+        <View style={{ marginBottom: 16 }} />
+
+        </>
       ))}
     </ScrollView>
   );

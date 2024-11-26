@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -11,12 +11,40 @@ import Home from './components/Home';
 import PrayerScreen from './screens/PrayerScreen';
 import EventsScreen from './screens/EventsScreen';
 import CommunityScreen from './screens/CommunityScreen';
+import CustomDrawer from './components/CustomDrawer';
+import SearchModal from './components/SearchModal';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
 const NavigationContent = () => {
   const { isDarkMode, colors, toggleTheme } = useTheme();
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
+
+  const HeaderRight = () => (
+    <View style={{ flexDirection: 'row', marginRight: 10 }}>
+      <TouchableOpacity 
+        onPress={() => setIsSearchVisible(true)}
+        style={{ marginRight: 15 }}
+      >
+        <Ionicons 
+          name="search" 
+          size={24} 
+          color={colors.text} 
+        />
+      </TouchableOpacity>
+      <TouchableOpacity 
+        onPress={toggleTheme}
+        style={{ marginRight: 5 }}
+      >
+        <Ionicons 
+          name={isDarkMode ? 'sunny' : 'moon'} 
+          size={24} 
+          color={colors.text} 
+        />
+      </TouchableOpacity>
+    </View>
+  );
 
   const HomeStack = () => (
     <Stack.Navigator
@@ -25,18 +53,7 @@ const NavigationContent = () => {
           backgroundColor: colors.surface,
         },
         headerTintColor: colors.text,
-        headerRight: () => (
-          <TouchableOpacity 
-            onPress={toggleTheme}
-            style={{ marginRight: 15 }}
-          >
-            <Ionicons 
-              name={isDarkMode ? 'sunny' : 'moon'} 
-              size={24} 
-              color={colors.text} 
-            />
-          </TouchableOpacity>
-        ),
+        headerRight: () => <HeaderRight />,
       }}
     >
       <Stack.Screen 
@@ -64,6 +81,7 @@ const NavigationContent = () => {
           backgroundColor: colors.surface,
         },
         headerTintColor: colors.text,
+        headerRight: () => <HeaderRight />,
       }}
     >
       <Stack.Screen 
@@ -91,6 +109,7 @@ const NavigationContent = () => {
           backgroundColor: colors.surface,
         },
         headerTintColor: colors.text,
+        headerRight: () => <HeaderRight />,
       }}
     >
       <Stack.Screen 
@@ -118,6 +137,7 @@ const NavigationContent = () => {
           backgroundColor: colors.surface,
         },
         headerTintColor: colors.text,
+        headerRight: () => <HeaderRight />,
       }}
     >
       <Stack.Screen 
@@ -139,59 +159,66 @@ const NavigationContent = () => {
   );
 
   return (
-    <Drawer.Navigator
-      screenOptions={{
-        drawerStyle: {
-          backgroundColor: colors.surface,
-        },
-        drawerLabelStyle: {
-          color: colors.text,
-        },
-        drawerActiveTintColor: colors.primary,
-        drawerInactiveTintColor: colors.text,
-      }}
-    >
-      <Drawer.Screen 
-        name="Home" 
-        component={HomeStack}
-        options={{
-          headerShown: false,
-          drawerIcon: ({ color }) => (
-            <Ionicons name="home" size={24} color={color} />
-          ),
+    <>
+      <Drawer.Navigator
+        drawerContent={props => <CustomDrawer {...props} />}
+        screenOptions={{
+          drawerStyle: {
+            backgroundColor: colors.surface,
+          },
+          drawerLabelStyle: {
+            color: colors.text,
+          },
+          drawerActiveTintColor: colors.primary,
+          drawerInactiveTintColor: colors.text,
         }}
+      >
+        <Drawer.Screen 
+          name="Home" 
+          component={HomeStack}
+          options={{
+            headerShown: false,
+            drawerIcon: ({ color }) => (
+              <Ionicons name="home" size={24} color={color} />
+            ),
+          }}
+        />
+        <Drawer.Screen 
+          name="Prayer" 
+          component={PrayerStack}
+          options={{
+            headerShown: false,
+            drawerIcon: ({ color }) => (
+              <Ionicons name="pray" size={24} color={color} />
+            ),
+          }}
+        />
+        <Drawer.Screen 
+          name="Events" 
+          component={EventsStack}
+          options={{
+            headerShown: false,
+            drawerIcon: ({ color }) => (
+              <Ionicons name="calendar" size={24} color={color} />
+            ),
+          }}
+        />
+        <Drawer.Screen 
+          name="Community" 
+          component={CommunityStack}
+          options={{
+            headerShown: false,
+            drawerIcon: ({ color }) => (
+              <Ionicons name="people" size={24} color={color} />
+            ),
+          }}
+        />
+      </Drawer.Navigator>
+      <SearchModal
+        visible={isSearchVisible}
+        onClose={() => setIsSearchVisible(false)}
       />
-      <Drawer.Screen 
-        name="Prayer" 
-        component={PrayerStack}
-        options={{
-          headerShown: false,
-          drawerIcon: ({ color }) => (
-            <Ionicons name="pray" size={24} color={color} />
-          ),
-        }}
-      />
-      <Drawer.Screen 
-        name="Events" 
-        component={EventsStack}
-        options={{
-          headerShown: false,
-          drawerIcon: ({ color }) => (
-            <Ionicons name="calendar" size={24} color={color} />
-          ),
-        }}
-      />
-      <Drawer.Screen 
-        name="Community" 
-        component={CommunityStack}
-        options={{
-          headerShown: false,
-          drawerIcon: ({ color }) => (
-            <Ionicons name="people" size={24} color={color} />
-          ),
-        }}
-      />
-    </Drawer.Navigator>
+    </>
   );
 };
 
