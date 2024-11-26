@@ -6,6 +6,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
+import { LanguageProvider, useLanguage } from './context/LanguageContext';
 
 import Home from './components/Home';
 import PrayerScreen from './screens/PrayerScreen';
@@ -19,10 +20,19 @@ const Drawer = createDrawerNavigator();
 
 const NavigationContent = () => {
   const { isDarkMode, colors, toggleTheme } = useTheme();
+  const { toggleLanguage, language } = useLanguage();
   const [isSearchVisible, setIsSearchVisible] = useState(false);
 
-  const HeaderRight = () => (
+  const HeaderRight = ({ navigation }) => (
     <View style={{ flexDirection: 'row', marginRight: 10 }}>
+      <TouchableOpacity
+        style={{ marginRight: 15 }}
+        onPress={toggleLanguage}
+      >
+        <Text style={{ fontSize: 16, fontWeight: 'bold' }}>
+          {language === 'en' ? 'አማ' : 'EN'}
+        </Text>
+      </TouchableOpacity>
       <TouchableOpacity 
         onPress={() => setIsSearchVisible(true)}
         style={{ marginRight: 15 }}
@@ -225,9 +235,11 @@ const NavigationContent = () => {
 export default function App() {
   return (
     <ThemeProvider>
-      <NavigationContainer>
-        <NavigationContent />
-      </NavigationContainer>
+      <LanguageProvider>
+        <NavigationContainer>
+          <NavigationContent />
+        </NavigationContainer>
+      </LanguageProvider>
     </ThemeProvider>
   );
 }
