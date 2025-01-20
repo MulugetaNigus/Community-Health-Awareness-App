@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "church",
-    "slug": "church",
+    "name": "EyeConnect",
+    "slug": "EyeConnect",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -26,3 +26,4 @@
     }
   }
 }
+ 
