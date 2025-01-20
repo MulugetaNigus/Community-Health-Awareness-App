@@ -1,6 +1,5 @@
 import React, { useState } from 'react';  
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, Modal, TouchableWithoutFeedback, Keyboard } from 'react-native';  
-// import DateTimePicker from '@react-native-community/datetimepicker'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AddModal = ({ visible, onClose }) => {  
@@ -59,17 +58,6 @@ const AddModal = ({ visible, onClose }) => {
                             multiline={true} 
                             numberOfLines={5}  
                         />  
-                        {/* <TouchableOpacity onPress={() => setShowPicker(true)} style={styles.input}>  
-                            <Text>{date.toLocaleDateString()}</Text>
-                        </TouchableOpacity>  
-                        {showPicker && (  
-                            <DateTimePicker  
-                                value={date}  
-                                mode="date"  
-                                display="default"  
-                                onChange={onChange}  
-                            />  
-                        )}   */}
                         <TouchableOpacity onPress={handleSubmit} style={styles.submitButton}>  
                             <Text style={styles.submitButtonText}>Submit</Text>  
                         </TouchableOpacity>  
@@ -88,7 +76,7 @@ const styles = StyleSheet.create({
         flex: 1,  
         justifyContent: 'center',  
         alignItems: 'center',  
-        backgroundColor: 'rgba(0, 0, 0, 0.7)', // Dark overlay for better visibility  
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',  
     },  
     modalContent: {  
         width: '80%',  
@@ -113,7 +101,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#f9f9f9',  
     },  
     descriptionInput: {  
-        height: 100, // Increased height for the description input  
+        height: 100,  
     },  
     submitButton: {  
         marginTop: 15,  

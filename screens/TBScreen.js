@@ -1,29 +1,46 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import axios from 'axios';
 
 export default function TBScreen() {
 
-  // make a get req to the backend to get the content with title using axios GET Req
-  
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    axios.get('http://192.168.43.241:5000/api/v1/diseases')
+      .then(response => {
+        // Filter the data to find the matching title
+        const tbData = response.data.find(item => item.title === 'TB');
+        if (tbData) {
+          setTitle(tbData.title);
+          setDescription(tbData.description);
+          setError('');
+        } else {
+          setTitle('');
+          setDescription('');
+          setError('No title and description found!');
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+        setError('Failed to fetch data.');
+      });
+  }, []);
+
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Text style={styles.title}>አጠቃላይ እይታ (TB)</Text>
-        <Text style={styles.description}>
-          ሳንባ ነቀርሳ (ቲቢ) በባክቴሪያ የሚከሰት ተላላፊ በሽታ ሲሆን ብዙውን ጊዜ በሳንባዎች ላይ ተጽዕኖ ያሳድራል። ቲቢ ያለባቸው ሰዎች ሲያስሉ፣ ሲያስነጥሱ ወይም ሲተፉ በአየር ይተላለፋል።
-          የሳንባ ነቀርሳ በሽታ መከላከል እና ማዳን ይቻላል.
-          ከአለም ህዝብ ሩብ ያህሉ በቲቢ ባክቴሪያ እንደተያዙ ይገመታል። ከ5-10% ያህሉ በቲቢ የተያዙ ሰዎች በመጨረሻ ምልክቶች ይታዩና የቲቢ በሽታ ይያዛሉ።
-          በበሽታው የተያዙ ግን ከበሽታ ነፃ የሆኑ ሰዎች ሊያስተላልፉ አይችሉም። የቲቢ በሽታ በአብዛኛው በኣንቲባዮቲክ የሚታከም ሲሆን ያለ ህክምናም ለሞት ሊዳርግ ይችላል።
-          በተወሰኑ አገሮች የቲቢ በሽታን ለመከላከል የ Bacille Calmette-Guérin (BCG) ክትባት ለሕፃናት ወይም ለትንንሽ ልጆች ይሰጣል። ክትባቱ በቲቢ ሞትን ይከላከላል እና ህፃናትን ከከባድ የቲቢ ዓይነቶች ይከላከላል.
-          አንዳንድ ሁኔታዎች አንድን ሰው ለቲቢ በሽታ ሊያጋልጥ ይችላል፡-
-          የስኳር በሽታ (ከፍተኛ የደም ስኳር)
-          የተዳከመ የበሽታ መቋቋም ስርዓት (ለምሳሌ ከኤችአይቪ ወይም ኤድስ)
-          የተመጣጠነ ምግብ እጥረት
-          የትምባሆ አጠቃቀም
-          ጎጂ የአልኮል አጠቃቀም.
-        </Text>
+        {error ? (
+          <Text style={styles.error}>{error}</Text>
+        ) : (
+          <>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.description}>{description}</Text>
+          </>
+        )}
       </View>
     </ScrollView>
   );
@@ -41,15 +58,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 10,
   },
-  title2: {
-    marginTop: 28,
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
   description: {
     fontSize: 16,
     textAlign: 'start',
     color: '#555',
+  },
+  error: {
+    fontSize: 16,
+    color: 'red',
+    textAlign: 'center',
   },
 });

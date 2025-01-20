@@ -11,7 +11,6 @@ export default function HomeScreen({ navigation, openModal, closeModal, modalVis
             <ScrollView contentContainerStyle={styles.container}>
                 <Text style={styles.title}>Community Health Awareness</Text>
 
-                {/* Show AddModal when modalVisible is true */}
                 <AddModal visible={modalVisible} onClose={closeModal} />
 
                 <View style={styles.gridContainer}>

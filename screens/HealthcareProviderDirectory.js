@@ -3,9 +3,8 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet, Linking } from 'rea
 
 const providers = [
     { id: '1', name: 'Woldia City Hospital', address: 'Woldia, adago' },
-    { id: '2', name: 'Woldia University Clinic', address: '456 Elm St, Cityville' },
-    { id: '3', name: 'Woldia Adago Clinic', address: '789 Maple Ave, Cityville' },
-    // Add more providers as needed  
+    { id: '2', name: 'Woldia University Clinic', address: 'Woldia University Clinic' },
+    { id: '3', name: 'Woldia Adago Clinic', address: 'Woldia Adago Clinic' },
 ];
 
 const HealthcareProviderDirectory = () => {

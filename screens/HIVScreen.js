@@ -1,19 +1,46 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 export default function HIVScreen() {
+  const [content, setContent] = useState({ title: '', description: '' });
+  const [isContentFound, setIsContentFound] = useState(false);
+
+  useEffect(() => {
+    fetchContent();
+  }, []);
+
+  const fetchContent = async () => {
+    try {
+      const response = await fetch('https://192.168.43.241:5000/api/v1/diseases');
+      const data = await response.json();
+      const matchedContent = data.find(
+        (item) => item.title === 'HIV'
+      );
+
+      if (matchedContent) {
+        setContent(matchedContent);
+        setIsContentFound(true);
+      } else {
+        setIsContentFound(false);
+      }
+    } catch (error) {
+      console.error('Error fetching content:', error);
+      setIsContentFound(false);
+    }
+  };
+
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Text style={styles.title}>አጠቃላይ እይታ</Text>
-        <Text style={styles.description}>
-          የሰው ልጅ የበሽታ መከላከያ ቫይረስ (ኤችአይቪ) የሰውነትን በሽታ የመከላከል ስርዓት የሚያጠቃ ቫይረስ ነው. የበሽታ መከላከያ እጥረት (ኤድስ) በጣም የላቀ የኢንፌክሽን ደረጃ ላይ ይከሰታል.
-          ኤች አይ ቪ የሰውነትን በሽታ የመከላከል ስርዓትን በማዳከም ነጭ የደም ሴሎችን ያነጣጠረ ነው. ይህም እንደ ሳንባ ነቀርሳ፣ ኢንፌክሽኖች እና አንዳንድ ነቀርሳዎች ባሉ በሽታዎች ለመታመም ቀላል ያደርገዋል።
-          ኤች አይ ቪ በደም ፣ በጡት ወተት ፣ በወንድ የዘር ፈሳሽ እና በሴት ብልት ፈሳሾችን ጨምሮ በበሽታው ከተያዘ ሰው ከሰውነት ፈሳሾች ይተላለፋል። በመሳም፣ በመተቃቀፍ ወይም በምግብ መጋራት አይሰራጭም። ከእናት ወደ ልጇም ሊተላለፍ ይችላል።
-          ኤች አይ ቪን መከላከል እና በፀረ-ኤችአይቪ ህክምና (ART) መከላከል ይቻላል. ያልታከመ ኤችአይቪ ወደ ኤድስ ሊያድግ ይችላል፣ ብዙ ጊዜ ከብዙ አመታት በኋላ።
-          WHO አሁን የላቀ የኤችአይቪ በሽታ (ኤኤችዲ) ሲዲ4 ሴል ከ200 ህዋሶች/mm3 ወይም WHO ደረጃ 3 ወይም 4 በአዋቂዎችና በጉርምስና ዕድሜ ላይ እያለ ይገልፃል። ከ 5 ዓመት በታች የሆኑ ህጻናት ከኤችአይቪ ጋር የሚኖሩ ሁሉ ከፍተኛ የኤችአይቪ በሽታ እንዳለባቸው ይቆጠራሉ.
-        </Text>
+        {isContentFound ? (
+          <>
+            <Text style={styles.title}>{content.title}</Text>
+            <Text style={styles.description}>{content.description}</Text>
+          </>
+        ) : (
+          <Text style={styles.description}>No title and description found!</Text>
+        )}
       </View>
     </ScrollView>
   );
