@@ -1,5 +1,5 @@
 {
-  "name": "church",
+  "name": "EyeConnect",
   "license": "0BSD",
   "version": "1.0.0",
   "main": "index.js",
@@ -10,20 +10,34 @@
     "web": "expo start --web"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@expo/metro-runtime": "~4.0.1",
     "@react-native-community/datetimepicker": "8.2.0",
+=======
+    "@google/generative-ai": "^0.21.0",
+    "@react-native-async-storage/async-storage": "^2.1.0",
+>>>>>>> a121d5bf02bb724f4f35a68dff06acd0f5163203
     "@react-navigation/drawer": "^7.0.11",
     "@react-navigation/native": "^7.0.6",
     "@react-navigation/native-stack": "^7.1.7",
     "@react-navigation/stack": "^7.0.11",
+    "axios": "^1.7.9",
     "expo": "~52.0.11",
+<<<<<<< HEAD
     "expo-image-picker": "~16.0.6",
     "expo-snackbar": "^1.0.0",
+=======
+    "expo-file-system": "~18.0.6",
+>>>>>>> a121d5bf02bb724f4f35a68dff06acd0f5163203
     "expo-status-bar": "~2.0.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-native": "0.76.3",
+<<<<<<< HEAD
     "react-native-gesture-handler": "~2.20.2",
+=======
+    "react-native-gesture-handler": "^2.21.2",
+>>>>>>> a121d5bf02bb724f4f35a68dff06acd0f5163203
     "react-native-reanimated": "~3.16.1",
     "react-native-safe-area-context": "4.12.0",
     "react-native-screens": "~4.1.0",
