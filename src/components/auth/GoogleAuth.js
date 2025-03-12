@@ -15,6 +15,8 @@ const redirectUri = AuthSession.makeRedirectUri({
   useProxy: true,
 });
 
+console.log('Redirect URI:', redirectUri);
+
 const GoogleAuth = () => {
   const { login } = useAuth();
 
@@ -23,7 +25,10 @@ const GoogleAuth = () => {
     {
       clientId: googleClientId,
       redirectUri,
-      scopes: ['profile', 'email'],
+      scopes: [
+        'https://www.googleapis.com/auth/userinfo.profile',
+        'https://www.googleapis.com/auth/userinfo.email'
+      ],
       responseType: 'token',
       prompt: 'select_account',
     },
@@ -34,35 +39,39 @@ const GoogleAuth = () => {
 
   // Handle the authentication response
   React.useEffect(() => {
-    if (response?.type === 'success') {
-      const { access_token } = response.params;
+    if (response) {
+      console.log('Auth Response:', response);
       
-      // Fetch user info using the access token
-      const getUserInfo = async () => {
-        try {
-          const userInfoResponse = await fetch(
-            'https://www.googleapis.com/userinfo/v2/me',
-            {
-              headers: { Authorization: `Bearer ${access_token}` },
-            }
-          );
-          
-          const userInfo = await userInfoResponse.json();
-          
-          // Log the user in with the retrieved user info
-          await login({
-            id: userInfo.id,
-            name: userInfo.name,
-            email: userInfo.email,
-            picture: userInfo.picture,
-            provider: 'google',
-          });
-        } catch (error) {
-          console.error('Error fetching user info:', error);
-        }
-      };
-      
-      getUserInfo();
+      if (response.type === 'success') {
+        const { access_token } = response.params;
+        
+        // Fetch user info using the access token
+        const getUserInfo = async () => {
+          try {
+            const userInfoResponse = await fetch(
+              'https://www.googleapis.com/userinfo/v2/me',
+              {
+                headers: { Authorization: `Bearer ${access_token}` },
+              }
+            );
+            
+            const userInfo = await userInfoResponse.json();
+            
+            // Log the user in with the retrieved user info
+            await login({
+              id: userInfo.id,
+              name: userInfo.name,
+              email: userInfo.email,
+              picture: userInfo.picture,
+              provider: 'google',
+            });
+          } catch (error) {
+            console.error('Error fetching user info:', error);
+          }
+        };
+        
+        getUserInfo();
+      }
     }
   }, [response, login]);
 
